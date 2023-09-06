@@ -1,16 +1,25 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
-	"name": "Python 3.10 - USB Bind",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/python:1-3.10-bullseye",
-	"remoteUser": "root",
+    "name": "ESPHome Dev",
+    "image": "ghcr.io/esphome/esphome-lint:dev",
+    "postCreateCommand": [
+      "./devcontainer/post-create"
+    ],
+    "remoteUser": "root",
 	"mounts": [
 		"type=bind,source=/dev/bus/usb,target=/dev/bus/usb"
 	],
 	"privileged": true,
-	"features": {
-		"ghcr.io/devcontainers/features/common-utils:2": {
+    "containerEnv": {
+      "DEVCONTAINER": "1"
+    },
+    "runArgs": [
+      "--privileged",
+      "-e",
+      "ESPHOME_DASHBOARD_USE_PING=1"
+    ],
+    "appPort": 6052,
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
 			"installZsh": true,
 			"configureZshAsDefaultShell": true,
 			"installOhMyZsh": true,
@@ -19,31 +28,55 @@
 			"username": "automatic",
 			"userUid": "automatic",
 			"userGid": "automatic"
-		},
-		"ghcr.io/akhildevelops/devcontainer-features/pip:0": {
-			"PACKAGES": "esphome"
 		}
-	},
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"ESPHome.esphome-vscode"
-			]
-		}
-	}
-
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "pip3 install --user -r requirements.txt",
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
-}
+    },
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          // python
+          "ms-python.python",
+          "visualstudioexptteam.vscodeintellicode",
+          // yaml
+          "redhat.vscode-yaml",
+          // cpp
+          "ms-vscode.cpptools",
+          // editorconfig
+          "editorconfig.editorconfig",
+          "ESPHome.esphome-vscode"
+        ],
+        "settings": {
+          "python.languageServer": "Pylance",
+          "python.pythonPath": "/usr/bin/python3",
+          "python.linting.pylintEnabled": true,
+          "python.linting.enabled": true,
+          "python.formatting.provider": "black",
+          "editor.formatOnPaste": false,
+          "editor.formatOnSave": true,
+          "editor.formatOnType": true,
+          "files.trimTrailingWhitespace": true,
+          "terminal.integrated.defaultProfile.linux": "bash",
+          "yaml.customTags": [
+            "!secret scalar",
+            "!lambda scalar",
+            "!extend scalar",
+            "!include_dir_named scalar",
+            "!include_dir_list scalar",
+            "!include_dir_merge_list scalar",
+            "!include_dir_merge_named scalar"
+          ],
+          "files.exclude": {
+            "**/.git": true,
+            "**/.DS_Store": true,
+            "**/*.pyc": {
+              "when": "$(basename).py"
+            },
+            "**/__pycache__": true
+          },
+          "files.associations": {
+            "**/.vscode/*.json": "jsonc"
+          },
+          "C_Cpp.clang_format_path": "/usr/bin/clang-format-13"
+        }
+      }
+    }
+  }
