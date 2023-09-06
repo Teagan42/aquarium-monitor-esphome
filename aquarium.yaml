@@ -7,9 +7,7 @@ esphome:
     name: ${name}
     friendly_name: ${name}
     includes:
-        - EEPROM.h
-        - GravityTDS.h
-        - tds_sensor.h
+        - includes
 
 ota:
   password: ""      

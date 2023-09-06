@@ -1,4 +1,4 @@
-#include "./gravity_tds.h"
+#include "gravity_tds.h"
 
 GravityTDS gravityTds;
 
