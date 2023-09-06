@@ -1,90 +1,89 @@
-
 substitutions:
-    name: esp32-aquarium-water
-    friendly_name: "Aquarium"
+  name: esp32-aquarium-water
+  friendly_name: "Aquarium"
 
 esphome:
-    name: ${name}
-    friendly_name: ${name}
-    includes:
-        - includes
+  name: ${name}
+  friendly_name: ${name}
+  includes:
+    - include
 
 ota:
-  password: ""      
+  password: ""
 
 esp32:
-    board: esp32-s3-devkitc-1
+  board: esp32-s3-devkitc-1
 
 # Enable logging
 logger:
-    level: DEBUG
-  
+  level: DEBUG
+
 improv_serial:
   # Enable Home Assistant API
 api:
-    password: ""
+  password: ""
 
 mqtt:
-    broker: BROKER
-    port: 1183
-    username: aquarium
-    client_id: aquarium
+  broker: BROKER
+  port: 1183
+  username: aquarium
+  client_id: aquarium
 
 wifi:
-    ssid: "SSID"
-    password: "PASSWORD"
-    
-    # Enable fallback hotspot (captive portal) in case wifi connection fails
-    ap:
-        ssid: "Bt Aquarium Fallback Hotspot"
-        password: "password"
+  ssid: "SSID"
+  password: "PASSWORD"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Bt Aquarium Fallback Hotspot"
+    password: "password"
 
 i2c:
-    sda: GPIO17
-    scl: GPIO18
-    scan: true
+  sda: GPIO17
+  scl: GPIO18
+  scan: true
 
 dallas:
-    - pin: GPIO5
-      update_interval: 10s
-      
+  - pin: GPIO5
+    update_interval: 10s
+
 sensor:
-    - name: "pH"
-      platform: ezo
-      id: ph
-      address: 99
-      unit_of_measurement: "pH"
-      update_interval: 5s
+  - name: "pH"
+    platform: ezo
+    id: ph
+    address: 99
+    unit_of_measurement: "pH"
+    update_interval: 5s
 
-    - platform: custom
-      lambda: |-
-        auto tds_sensor = new TdsSensor(id(tank_tempC));
-        App.register_component(tds_sensor);
-        return {tds_sensor->tds_sensor, tds_sensor->voltage_sensor};
-      sensors:
-        - name: "Water TDS"
-          unit_of_measurement: ppm
-          accuracy_decimals: 2
-        - name: "Water Voltage"
-          unit_of_measurement: mV
-          accuracy_decimals: 0
+  - platform: custom
+    lambda: |-
+      auto tds_sensor = new TdsSensor(id(tank_tempC));
+      App.register_component(tds_sensor);
+      return {tds_sensor->tds_sensor, tds_sensor->voltage_sensor};
+    sensors:
+      - name: "Water TDS"
+        unit_of_measurement: ppm
+        accuracy_decimals: 2
+      - name: "Water Voltage"
+        unit_of_measurement: mV
+        accuracy_decimals: 0
 
-    - name: "Main Water Temperature C"
-      platform: dallas
-      address: 0xe83ce1045777b828
-      id: tank_tempC
-      unit_of_measurement: "°C"
-      internal: true
-    
-    - platform: adc
-      pin: GPIO2
-      name: "Main Water TSS"
-      id: tank_tss
-      attenuation: auto
-      unit_of_measurement: 'NTU'
-      update_interval: 7s
-      filters:
-        - calibrate_linear:
-           datapoints:
+  - name: "Main Water Temperature C"
+    platform: dallas
+    address: 0xe83ce1045777b828
+    id: tank_tempC
+    unit_of_measurement: "°C"
+    internal: true
+
+  - platform: adc
+    pin: GPIO2
+    name: "Main Water TSS"
+    id: tank_tss
+    attenuation: auto
+    unit_of_measurement: "NTU"
+    update_interval: 7s
+    filters:
+      - calibrate_linear:
+          datapoints:
             - 1.65 -> 3004.7
             - 2.22 -> 0.0
