@@ -12,7 +12,7 @@ ota:
   password: ""
 
 esp32:
-  board: esp32-s3-devkitc-1
+  board: esp32dev
 
 # Enable logging
 logger:
@@ -76,7 +76,7 @@ sensor:
     internal: true
 
   - platform: adc
-    pin: GPIO2
+    pin: GPIO34
     name: "Main Water TSS"
     id: tank_tss
     attenuation: auto
