@@ -1,45 +1,50 @@
-#include "gravity_tds.h"
+#include "esphome.h"
+#include "GravityTDS.h"
+
+using namespace esphome;
 
 GravityTDS gravityTds;
 
-class TdsSensor : public PollingComponent, public Sensor {
+class GravityTdsSensor : public PollingComponent, public sensor::Sensor
+{
 
-  private:
-    esphome::sensor::Sensor* sTemp;
-  
-  public:
-    // constructor
-    
-    TdsSensor(esphome::sensor::Sensor* temp) : PollingComponent(15000) {
-      sTemp = temp;
-    };
+private:
+  sensor::Sensor *sTemp;
 
-    Sensor *tds_sensor = new Sensor();
-    Sensor *voltage_sensor = new Sensor();
-    float get_setup_priority() const override { return esphome::setup_priority::DATA; }
-    
+public:
+  // constructor
+  GravityTdsSensor(sensor::Sensor *temp) : PollingComponent(15000)
+  {
+    sTemp = temp;
+  };
 
-    void setup() override {
-      
-      gravityTds.setPin(A0);
-      gravityTds.setAref(3.3);
-      gravityTds.setAdcRange(1024);  //1024 for 10bit ADC;4096 for 12bit ADC
-      gravityTds.begin();  //initialization
-      
-    }
+  Sensor *tds_sensor = new Sensor();
+  Sensor *voltage_sensor = new Sensor();
+  float get_setup_priority() const override { return setup_priority::DATA; }
 
-    float ftoc(float temp) {
-      return (temp - 32.0) / 1.8;
-    }
-    void update() override {
-      float nuteTemp = ftoc(sTemp->state);
+  void setup() override
+  {
 
-      gravityTds.setTemperature(nuteTemp);
-      
-      gravityTds.update();  //sample and calculate 
-      float tdsValue = gravityTds.getTdsValue();  // then get the value
-      ESP_LOGD("gravity_tds", "%.2f | %.2f", tdsValue, nuteTemp);
-      tds_sensor->publish_state(tdsValue);
-      voltage_sensor->publish_state(analogRead(A0));
-    }
+    gravityTds.setPin(A0);
+    gravityTds.setAref(3.3);
+    gravityTds.setAdcRange(1024); // 1024 for 10bit ADC;4096 for 12bit ADC
+    gravityTds.begin();           // initialization
+  }
+
+  float ftoc(float temp)
+  {
+    return (temp - 32.0) / 1.8;
+  }
+  void update() override
+  {
+    float nuteTemp = ftoc(sTemp->state);
+
+    gravityTds.setTemperature(nuteTemp);
+
+    gravityTds.update();                       // sample and calculate
+    float tdsValue = gravityTds.getTdsValue(); // then get the value
+    ESP_LOGD("gravity_tds", "%.2f | %.2f", tdsValue, nuteTemp);
+    tds_sensor->publish_state(tdsValue);
+    voltage_sensor->publish_state(analogRead(A0));
+  }
 };
