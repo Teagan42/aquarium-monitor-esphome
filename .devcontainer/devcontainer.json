@@ -10,13 +10,9 @@
   ],
   "privileged": true,
   "containerEnv": {
-    "DEVCONTAINER": "1"
+    "DEVCONTAINER": "1",
+    "ESPHOME_DASHBOARD_USE_PING": "1"
   },
-  "runArgs": [
-    "--privileged",
-    "-e",
-    "ESPHOME_DASHBOARD_USE_PING=1"
-  ],
   "appPort": 6052,
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
