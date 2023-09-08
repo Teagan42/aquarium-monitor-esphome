@@ -57,7 +57,7 @@ sensor:
 
   - platform: custom
     lambda: |-
-      auto tds_sensor = new TdsSensor(id(tank_tempC));
+      auto tds_sensor = new GravityTdsSensor(id(tank_tempC));
       App.register_component(tds_sensor);
       return {tds_sensor->tds_sensor, tds_sensor->voltage_sensor};
     sensors:
