@@ -104,7 +104,7 @@ sensor:
     lambda: |-
       float x = id(tss_voltage).state * 1000.0;
       float x2 = x * x;
-      return -2572.2 * x2 + 8700.5 * x - 4352.9;
+      return -819.891 *x2 + 1305.46xx + 2960.1;
     unit_of_measurement: "NTU"
     update_interval: 15s
     accuracy_decimals: 1
