@@ -8,10 +8,11 @@
 #include "esphome/core/component.h"
 #include "esphome/core/application.h"
 
-#define PH_8_VOLTAGE 1122
-#define PH_6_VOLTAGE 1478
-#define PH_5_VOLTAGE 1654
-#define PH_3_VOLTAGE 2010
+#define PH_8_VOLTAGE 1122.0
+#define PH_6_VOLTAGE 1478.0
+#define PH_5_VOLTAGE 1654.0
+#define PH_4_VOLTAGE 2032.4
+#define PH_7_LAB_VOLTAGE 1500
 
 struct pHCalibrationPoint
 {
@@ -32,8 +33,8 @@ class GravityPhSensor : public esphome::PollingComponent,
 private:
     pHCalibrationData calibrationData = {
         {0.0, 0.0},
-        {7.0, 1500.0},
-        {4.0, 2032.44}};
+        {7.0, PH_7_LAB_VOLTAGE},
+        {4.0, PH_4_VOLTAGE}};
     esphome::ESPPreferenceObject pref_;
 
     esphome::sensor::Sensor *ph_sensor = new esphome::sensor::Sensor();
