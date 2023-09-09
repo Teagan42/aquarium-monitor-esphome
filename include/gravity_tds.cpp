@@ -32,8 +32,9 @@ void GravityTdsSensor::update()
   esphome::ESP_LOGI(TAG, "updating...");
   float temperature = ftoc(this->temperature_sensor->state);
 
-  float mV = this->voltage_sensor->state / 1000;
-  float ec = (133.42 * mV * mV * mV - 255.86 * mV + 857.39 * mV) * this->kValue;
+  float mV = this->voltage_sensor->state;
+  float ec = (133.42 * mV * mV * mV - 255.86 * mV * mV + 857.39 * mV) * this->kValue;
+  esphome::ESP_LOGD("gravity_tds", "%.2f mV? | %.2f EC", mV, ec);
   float ec25 = ec / (1.0 + 0.02 * (temperature - 25.0)); // temperature compensation
   float tds = ec25 * TdsFactor;
 
