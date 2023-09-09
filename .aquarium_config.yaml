@@ -51,7 +51,7 @@ sensor:
     unit_of_measurement: V
     device_class: voltage
     update_interval: 15s
-    fitlers:
+    filters:
       - multiply: 1000.0
 
   - platform: custom
@@ -72,7 +72,7 @@ sensor:
     unit_of_measurement: V
     device_class: voltage
     update_interval: 15s
-    fitlers:
+    filters:
       - multiply: 1000.0
 
   - platform: custom
@@ -99,7 +99,7 @@ sensor:
     unit_of_measurement: "V"
     device_class: "voltage"
     update_interval: 15s
-    fitlers:
+    filters:
       - multiply: 1000.0
 
   - platform: template
