@@ -12,7 +12,7 @@
 #define PH_6_VOLTAGE 1478.0
 #define PH_5_VOLTAGE 1654.0
 #define PH_4_VOLTAGE 2032.4
-#define PH_7_LAB_VOLTAGE 1500
+#define PH_7_LAB_VOLTAGE 1500.0
 
 struct pHCalibrationPoint
 {

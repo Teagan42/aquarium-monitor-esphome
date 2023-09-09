@@ -48,9 +48,11 @@ sensor:
     name: Water pH Voltage
     attenuation: auto
     raw: false
-    unit_of_measurement: mV
+    unit_of_measurement: V
     device_class: voltage
     update_interval: 15s
+    filter:
+      multiply: 1000.0
 
   - platform: custom
     lambda: |-
@@ -67,9 +69,11 @@ sensor:
     name: Water TDS Voltage
     attenuation: auto
     raw: false
-    unit_of_measurement: mV
+    unit_of_measurement: V
     device_class: voltage
     update_interval: 15s
+    filter:
+      multiply: 1000.0
 
   - platform: custom
     lambda: |-
@@ -92,9 +96,11 @@ sensor:
     name: "Water TSS Voltage"
     id: tss_voltage
     attenuation: auto
-    unit_of_measurement: "mV"
+    unit_of_measurement: "V"
     device_class: "voltage"
     update_interval: 15s
+    filter:
+      multiply: 1000.0
 
   - platform: template
     name: "Water TSS"
