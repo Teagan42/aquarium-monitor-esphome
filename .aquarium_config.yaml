@@ -15,7 +15,7 @@ improv_serial:
 # Enable Home Assistant API
 api:
   encryption:
-    key: !secret a${quarium_api_encryption}
+    key: !secret ${api_encryption}
 
 ota:
   password: ${ota_password}
