@@ -18,7 +18,11 @@ logger:
 improv_serial:
 # Enable Home Assistant API
 api:
-  password: ""
+  encryption:
+    key: "REDACT"
+
+ota:
+  password: "REDACT"
 
 mqtt:
   broker: 10.0.13.228
