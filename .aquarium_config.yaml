@@ -51,8 +51,8 @@ sensor:
     unit_of_measurement: V
     device_class: voltage
     update_interval: 15s
-    filter:
-      multiply: 1000.0
+    fitlers:
+      - multiply: 1000.0
 
   - platform: custom
     lambda: |-
@@ -72,8 +72,8 @@ sensor:
     unit_of_measurement: V
     device_class: voltage
     update_interval: 15s
-    filter:
-      multiply: 1000.0
+    fitlers:
+      - multiply: 1000.0
 
   - platform: custom
     lambda: |-
@@ -99,8 +99,8 @@ sensor:
     unit_of_measurement: "V"
     device_class: "voltage"
     update_interval: 15s
-    filter:
-      multiply: 1000.0
+    fitlers:
+      - multiply: 1000.0
 
   - platform: template
     name: "Water TSS"
