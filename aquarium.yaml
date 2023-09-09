@@ -2,5 +2,9 @@ substitutions:
   name: esp32-aquarium-water
   friendly_name: "Aquarium"
   include_path: "./"
+  wifi_ssid: !secret wwfi_ssid
+  wifi_password: !secret wifi_password
+  api_encryption: !secret aquarium_api_encryption
+  ota_password: !secret aquarium_ota_password
 
 <<: !include .aquarium_config.yaml

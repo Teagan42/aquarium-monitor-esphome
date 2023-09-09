@@ -15,10 +15,10 @@ improv_serial:
 # Enable Home Assistant API
 api:
   encryption:
-    key: !secret aquarium_api_encryption
+    key: !secret a${quarium_api_encryption}
 
 ota:
-  password: !secret aquarium_ota_password
+  password: ${ota_password}
 
 mqtt:
   broker: 10.0.13.228
