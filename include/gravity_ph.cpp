@@ -30,7 +30,7 @@ void GravityPhSensor::update()
 {
   esphome::ESP_LOGI(TAG, "updating");
 
-  float mV = this->voltage_sensor->state;
+  float mV = this->voltage_sensor->state * 1000.0;
   float neutral = (this->calibrationData.neutral.mV - PH_7_LAB_VOLTAGE) / 3.0;
   float acid = (this->calibrationData.acid.mV - PH_7_LAB_VOLTAGE) / 3.0;
   float slope = (this->calibrationData.neutral.pH - this->calibrationData.acid.pH) / (neutral - acid);
