@@ -14,7 +14,7 @@ class GravityTdsSensor : public esphome::PollingComponent, public esphome::senso
 
 private:
     uint8_t pin;
-    float kValue = 0.0;
+    float kValue = 1.0;
     float adcVoltage = 3.3; // default 5.0V on Arduino UNO
     float adcRange = 1024;  // 1024 for 10bit ADC;4096 for 12bit ADC
     esphome::sensor::Sensor *temperature_sensor;

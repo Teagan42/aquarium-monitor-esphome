@@ -47,7 +47,7 @@ sensor:
     id: ph_voltage
     name: Water pH Voltage
     attenuation: 11db
-    raw: true
+    raw: false
     unit_of_measurement: mV
     device_class: voltage
     update_interval: 15s
@@ -58,7 +58,6 @@ sensor:
       return ph_sensor->sensors();
     sensors:
       - name: "Water pH"
-        unit_of_measurement: ph
         device_class: ph
         accuracy_decimals: 2
 
@@ -67,14 +66,14 @@ sensor:
     id: tds_voltage
     name: Water TDS Voltage
     attenuation: 11db
-    raw: true
+    raw: false
     unit_of_measurement: mV
     device_class: voltage
     update_interval: 15s
 
   - platform: custom
     lambda: |-
-      auto tds_sensor = new GravityTdsSensor(id(tds_voltage), id(tank_tempC));
+      auto tds_sensor = new GravityTdsSensor(id(tds_voltage), id(temp_c));
       return tds_sensor->sensors();
     sensors:
       - name: "Water TDS"
@@ -84,20 +83,25 @@ sensor:
   - name: "Temperature C"
     platform: dallas
     address: 0x953ce10457206428
-    id: tank_tempC
+    id: temp_c
     unit_of_measurement: "°C"
     device_class: temperature
 
   - platform: adc
     pin: 32
+    name: "Water TSS Voltage"
+    id: tss_voltage
+    attenuation: 11db
+    unit_of_measurement: "mV"
+    device_class: "voltage"
+    update_interval: 15s
+
+  - platform: template
     name: "Water TSS"
-    id: tank_tss
-    # attenuation: 11db
-    raw: true
+    lambda: |-
+      float x = id(tss_voltage).state;
+      float x2 = x * x;
+      return = -2572.2 * x2 + 8700.5 * x - 4352.9;
+    attenuation: 11db
     unit_of_measurement: "NTU"
     update_interval: 15s
-    # filters:
-    #   - calibrate_linear:
-    #       datapoints:
-    #         - 1.65 -> 3004.7
-    #         - 2.22 -> 0.0
