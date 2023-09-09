@@ -46,7 +46,7 @@ sensor:
     pin: 34
     id: ph_voltage
     name: Water pH Voltage
-    attenuation: 11db
+    attenuation: auto
     raw: false
     unit_of_measurement: mV
     device_class: voltage
@@ -65,7 +65,7 @@ sensor:
     pin: 35
     id: tds_voltage
     name: Water TDS Voltage
-    attenuation: 11db
+    attenuation: auto
     raw: false
     unit_of_measurement: mV
     device_class: voltage
@@ -91,7 +91,7 @@ sensor:
     pin: 32
     name: "Water TSS Voltage"
     id: tss_voltage
-    attenuation: 11db
+    attenuation: auto
     unit_of_measurement: "mV"
     device_class: "voltage"
     update_interval: 15s
