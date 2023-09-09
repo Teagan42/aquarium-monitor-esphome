@@ -101,7 +101,6 @@ sensor:
     lambda: |-
       float x = id(tss_voltage).state;
       float x2 = x * x;
-      return = -2572.2 * x2 + 8700.5 * x - 4352.9;
-    attenuation: 11db
+      return -2572.2 * x2 + 8700.5 * x - 4352.9;
     unit_of_measurement: "NTU"
     update_interval: 15s
