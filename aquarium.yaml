@@ -1,12 +1,10 @@
-substitutions:
-  name: esp32-aquarium-water
-  friendly_name: "Aquarium"
+<<: !include .aquarium_vars.yaml
 
 esphome:
   name: ${name}
   friendly_name: ${name}
   includes:
-    - include
+    - ${include_path}/include
 
 esp32:
   board: esp32-devkitlipo
@@ -19,10 +17,10 @@ improv_serial:
 # Enable Home Assistant API
 api:
   encryption:
-    key: "REDACT"
+    key: !secret aquarium_api_encryption
 
 ota:
-  password: "REDACT"
+  password: !secret aquarium_ota_password
 
 mqtt:
   broker: 10.0.13.228
@@ -97,7 +95,7 @@ sensor:
     name: "Water TSS"
     id: tank_tss
     # attenuation: 11db
-    # raw: true
+    raw: true
     unit_of_measurement: "NTU"
     update_interval: 15s
     # filters:
