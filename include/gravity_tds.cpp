@@ -32,15 +32,29 @@ void GravityTdsSensor::update()
   esphome::ESP_LOGI(TAG, "updating...");
   float temperature = ftoc(this->temperature_sensor->state);
 
-  float mV = this->voltage_sensor->state;
-  float ec = (133.42 * mV * mV * mV - 255.86 * mV * mV + 857.39 * mV) * this->kValue;
-  esphome::ESP_LOGD("gravity_tds", "%.2f mV? | %.2f EC", mV, ec);
+  float v = this->voltage_sensor->state;
+  float ec = (133.42 * v * v * v - 255.86 * v * v + 857.39 * v) * this->kValue;
+  esphome::ESP_LOGD("gravity_tds", "%.2f V? | %.2f EC", v, ec);
   float ec25 = ec / (1.0 + 0.02 * (temperature - 25.0)); // temperature compensation
   float tds = ec25 * TdsFactor;
 
   esphome::ESP_LOGD("gravity_tds", "%.2f ppm | %.2f C", tds, temperature);
   tds_sensor->publish_state(tds);
 }
+
+void GravityTdsSensor::calibrate(float buffer_ppm)
+{
+  float temperature = ftoc(this->temperature_sensor->state);
+  float v = this->voltage_sensor->state;
+
+  float bufferedEC = buffer_ppm * (1.0 + 0.02 * (temperature - 25.0));
+  float ec = (133.42 * v * v * v - 255.86 * v * v + 857.39 * v);
+
+  float kValue = bufferedEC / ec;
+
+  this->pref_.save(&kValue);
+}
+
 // void GravityTDS::ecCalibration(uint8_t mode)
 // {
 //     char *cmdReceivedBufferPtr;

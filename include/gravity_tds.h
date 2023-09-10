@@ -30,6 +30,8 @@ private:
 public:
     GravityTdsSensor(esphome::adc::ADCSensor *voltageSensor, esphome::sensor::Sensor *tempSensor, uint32_t updateInterval = 15000);
 
+    void calibrate(float buffer_ppm = 707.0);
+
     std::vector<esphome::sensor::Sensor *> sensors();
 
     float get_setup_priority() const override;
