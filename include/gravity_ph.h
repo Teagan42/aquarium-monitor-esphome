@@ -28,7 +28,8 @@ struct pHCalibrationData
 };
 
 class GravityPhSensor : public esphome::PollingComponent,
-                        public esphome::sensor::Sensor
+                        public esphome::sensor::Sensor,
+                        public esphome::api::CustomAPIDevice
 {
 private:
     pHCalibrationData calibrationData = {
@@ -40,10 +41,6 @@ private:
     esphome::sensor::Sensor *ph_sensor = new esphome::sensor::Sensor();
     esphome::adc::ADCSensor *voltage_sensor;
 
-    void on_calibration_acid(float mV, float ph = 4.0);
-    void on_calibration_neutral(float mV, float ph = 7.0);
-    void on_calibration_base(float mV, float ph = 10.0);
-
 public:
     GravityPhSensor(esphome::adc::ADCSensor *voltageSensor, uint32_t updateInterval = 15000);
 
@@ -54,4 +51,8 @@ public:
     void setup() override;
 
     void update() override;
+
+    void on_calibration_acid(float ph = 4.0, uint8_t sampleCount = 10, uint8_t intervalMs = 100);
+    void on_calibration_neutral(float ph = 7.0, uint8_t sampleCount = 10, uint8_t intervalMs = 100);
+    void on_calibration_base(float ph = 10.0, uint8_t sampleCount = 10, uint8_t intervalMs = 100);
 };
