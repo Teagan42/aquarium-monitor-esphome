@@ -33,7 +33,7 @@ class GravityPhSensor : public esphome::PollingComponent,
 {
 private:
     pHCalibrationData calibrationData = {
-        {0.0, 0.0},
+        {8.0, PH_8_VOLTAGE},
         {7.0, PH_7_LAB_VOLTAGE},
         {4.0, PH_4_VOLTAGE}};
     esphome::ESPPreferenceObject pref_;
@@ -52,7 +52,7 @@ public:
 
     void update() override;
 
-    void on_calibration_acid(float ph = 4.0, uint8_t sampleCount = 10, uint8_t intervalMs = 100);
-    void on_calibration_neutral(float ph = 7.0, uint8_t sampleCount = 10, uint8_t intervalMs = 100);
-    void on_calibration_base(float ph = 10.0, uint8_t sampleCount = 10, uint8_t intervalMs = 100);
+    void on_calibration_acid(float buffer_ph = 4.0);
+    void on_calibration_neutral(float buffer_ph = 7.0);
+    void on_calibration_base(float buffer_ph = 10.0);
 };

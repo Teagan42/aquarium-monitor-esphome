@@ -20,9 +20,9 @@ void GravityPhSensor::setup()
   this->pref_ = esphome::global_preferences->make_preference<pHCalibrationData>(this->get_object_id_hash());
   this->pref_.load(&this->calibrationData);
 
-  register_service(&GravityPhSensor::on_calibration_acid, "calibration_point_acid", {"pH", "sampleCount", "intervalMs"});
-  register_service(&GravityPhSensor::on_calibration_neutral, "calibration_point_neutral", {"pH", "sampleCount", "intervalMs"});
-  register_service(&GravityPhSensor::on_calibration_base, "calibration_point_base", {"pH", "sampleCount", "intervalMs"});
+  register_service(&GravityPhSensor::on_calibration_acid, "calibration_point_acid", {"buffer_ph"});
+  register_service(&GravityPhSensor::on_calibration_neutral, "calibration_point_neutral", {"buffer_ph"});
+  register_service(&GravityPhSensor::on_calibration_base, "calibration_point_base", {"buffer_ph"});
 }
 
 float GravityPhSensor::get_setup_priority() const
@@ -45,14 +45,23 @@ void GravityPhSensor::update()
   this->ph_sensor->publish_state(ph);
 }
 
-void GravityPhSensor::on_calibration_acid(float pH, uint8_t sampleCount, uint8_t intervalMs)
+void GravityPhSensor::on_calibration_acid(float buffer_pH)
 {
+  this->calibrationData.acid.pH = buffer_pH;
+  this->calibrationData.acid.mV = this->voltage_sensor->state * 1000.0;
+  this->pref_.save(&this->calibrationData);
 }
 
-void GravityPhSensor::on_calibration_neutral(float pH, uint8_t sampleCount, uint8_t intervalMs)
+void GravityPhSensor::on_calibration_neutral(float buffer_pH)
 {
+  this->calibrationData.neutral.pH = buffer_pH;
+  this->calibrationData.neutral.mV = this->voltage_sensor->state * 1000.0;
+  this->pref_.save(&this->calibrationData);
 }
 
-void GravityPhSensor::on_calibration_acid(float pH, uint8_t sampleCount, uint8_t intervalMs)
+void GravityPhSensor::on_calibration_base(float buffer_pH)
 {
+  this->calibrationData.base.pH = buffer_pH;
+  this->calibrationData.base.mV = this->voltage_sensor->state * 1000.0;
+  this->pref_.save(&this->calibrationData);
 }
