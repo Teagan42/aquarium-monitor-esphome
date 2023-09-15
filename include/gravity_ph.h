@@ -35,9 +35,9 @@ class GravityPhSensor : public esphome::PollingComponent,
 {
 private:
     pHCalibrationData calibrationData = {
-        {8.0, PH_8_VOLTAGE, new esphome::sensor::Sensor()},
-        {7.0, PH_7_LAB_VOLTAGE, new esphome::sensor::Sensor()},
-        {4.0, PH_4_VOLTAGE, new esphome::sensor::Sensor()}};
+        {10.0, 1.038646, new esphome::sensor::Sensor()},
+        {7.0, 1.442143, new esphome::sensor::Sensor()},
+        {4.0, 1.910964, new esphome::sensor::Sensor()}};
     esphome::sensor::Filter *calibration = new esphome::sensor::ClampFilter(0.0, 14.0);
     uint32_t voltageUpdateInterval;
     uint32_t updateInterval;
