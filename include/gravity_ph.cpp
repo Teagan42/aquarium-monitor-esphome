@@ -76,7 +76,7 @@ void GravityPhSensor::update()
   esphome::ESP_LOGI(TAG, "updating");
 
   float V = this->voltage_sensor->state;
-  // float pH = this->calibration->new_value(V).value_or(0);
+  float pH = this->calibration->new_value(V).value_or(0);
 
   float neutral = (this->calibrationData.neutral.mV - PH_7_LAB_VOLTAGE) / 3.0;
   float acid = (this->calibrationData.acid.mV - PH_7_LAB_VOLTAGE) / 3.0;
@@ -84,7 +84,7 @@ void GravityPhSensor::update()
   float intercept = this->calibrationData.neutral.pH - slope * neutral;
   float ph = slope * (V - PH_7_LAB_VOLTAGE) / 3.0 + intercept;
 
-  esphome::ESP_LOGD("gravity_ph", "%.2f V | %.2f pH | %.2f cal", V, ph, this->calibration->new_value(V));
+  esphome::ESP_LOGD("gravity_ph", "%.2f V | %.2f pH | %.2f cal", V, ph, pH);
 
   this->ph_sensor->publish_state(ph);
 }
