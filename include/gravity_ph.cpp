@@ -106,7 +106,7 @@ void GravityPhSensor::end_calibration()
 void GravityPhSensor::on_calibration_acid(float buffer_pH)
 {
   this->calibrationData.acid.pH = buffer_pH;
-  this->calibrationData.acid.mV = this->voltage_sensor->state * 1000.0;
+  this->calibrationData.acid.mV = this->voltage_sensor->state;
   this->pref_.save(&this->calibrationData);
   this->onCalibrationChange();
 }
@@ -114,7 +114,7 @@ void GravityPhSensor::on_calibration_acid(float buffer_pH)
 void GravityPhSensor::on_calibration_neutral(float buffer_pH)
 {
   this->calibrationData.neutral.pH = buffer_pH;
-  this->calibrationData.neutral.mV = this->voltage_sensor->state * 1000.0;
+  this->calibrationData.neutral.mV = this->voltage_sensor->state;
   this->pref_.save(&this->calibrationData);
   this->onCalibrationChange();
 }
@@ -122,7 +122,7 @@ void GravityPhSensor::on_calibration_neutral(float buffer_pH)
 void GravityPhSensor::on_calibration_base(float buffer_pH)
 {
   this->calibrationData.base.pH = buffer_pH;
-  this->calibrationData.base.mV = this->voltage_sensor->state * 1000.0;
+  this->calibrationData.base.mV = this->voltage_sensor->state;
   this->pref_.save(&this->calibrationData);
   this->onCalibrationChange();
 }
