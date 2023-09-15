@@ -2,22 +2,24 @@
 
 #include <Arduino.h>
 #include "esphome/components/sensor/sensor.h"
+#include "esphome/components/sensor/filter.h"
 #include "esphome/components/adc/adc_sensor.h"
 #include "esphome/components/api/custom_api_device.h"
 #include "esphome/core/preferences.h"
 #include "esphome/core/component.h"
 #include "esphome/core/application.h"
 
-#define PH_8_VOLTAGE 1122.0
-#define PH_6_VOLTAGE 1478.0
-#define PH_5_VOLTAGE 1654.0
-#define PH_4_VOLTAGE 2032.4
-#define PH_7_LAB_VOLTAGE 1500.0
+#define PH_8_VOLTAGE 1.1220
+#define PH_6_VOLTAGE 1.4780
+#define PH_5_VOLTAGE 1.6540
+#define PH_4_VOLTAGE 2.0324
+#define PH_7_LAB_VOLTAGE 1.500
 
 struct pHCalibrationPoint
 {
     float pH;
     float mV;
+    esphome::sensor::Sensor *sensor;
 };
 
 struct pHCalibrationData
@@ -33,13 +35,18 @@ class GravityPhSensor : public esphome::PollingComponent,
 {
 private:
     pHCalibrationData calibrationData = {
-        {8.0, PH_8_VOLTAGE},
-        {7.0, PH_7_LAB_VOLTAGE},
-        {4.0, PH_4_VOLTAGE}};
+        {8.0, PH_8_VOLTAGE, new esphome::sensor::Sensor()},
+        {7.0, PH_7_LAB_VOLTAGE, new esphome::sensor::Sensor()},
+        {4.0, PH_4_VOLTAGE, new esphome::sensor::Sensor()}};
+    esphome::sensor::Filter *calibration = new esphome::sensor::ClampFilter(0.0, 14.0);
+    uint32_t voltageUpdateInterval;
+    uint32_t updateInterval;
     esphome::ESPPreferenceObject pref_;
 
     esphome::sensor::Sensor *ph_sensor = new esphome::sensor::Sensor();
     esphome::adc::ADCSensor *voltage_sensor;
+
+    void onCalibrationChange();
 
 public:
     GravityPhSensor(esphome::adc::ADCSensor *voltageSensor, uint32_t updateInterval = 15000);
@@ -52,6 +59,8 @@ public:
 
     void update() override;
 
+    void begin_calibration();
+    void end_calibration();
     void on_calibration_acid(float buffer_ph = 4.0);
     void on_calibration_neutral(float buffer_ph = 7.0);
     void on_calibration_base(float buffer_ph = 10.0);

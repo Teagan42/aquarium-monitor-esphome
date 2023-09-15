@@ -61,6 +61,12 @@ sensor:
       - name: "Water pH"
         device_class: ph
         accuracy_decimals: 2
+      - name: "Acid Calibration"
+        accuracy_decimals: 3
+      - name: "Neutral Calibration"
+        accuracy_decimals: 3
+      - name: "Base Calibration"
+        accuracy_decimals: 3
 
   - platform: adc
     pin: 35
