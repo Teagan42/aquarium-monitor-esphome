@@ -38,7 +38,7 @@ private:
         {10.0, 1.038646, new esphome::sensor::Sensor()},
         {7.0, 1.442143, new esphome::sensor::Sensor()},
         {4.0, 1.910964, new esphome::sensor::Sensor()}};
-    esphome::sensor::Filter *calibration = new esphome::sensor::ClampFilter(0.0, 14.0);
+    esphome::sensor::Filter *calibration = new esphome::sensor::ClampFilter(0.0, 14.0, true);
     uint32_t voltageUpdateInterval;
     uint32_t updateInterval;
     esphome::ESPPreferenceObject pref_;
