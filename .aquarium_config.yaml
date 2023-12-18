@@ -20,11 +20,11 @@ api:
 ota:
   password: ${ota_password}
 
-mqtt:
-  broker: 10.0.13.228
-  port: 1883
-  username: aquarium
-  client_id: aquarium
+# mqtt:
+#   broker: 10.0.13.228
+#   port: 1883
+#   username: aquarium
+#   client_id: aquarium
 
 wifi:
   ssid: ${wifi_ssid}
